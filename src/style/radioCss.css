@@ -1,0 +1,3 @@
+label>input[type=radio]:checked {
+    background-color:pink;
+  }

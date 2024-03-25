@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import { FaFileUpload } from "react-icons/fa";
-import Switch from './Switch';
+import RadioGroup from "./RadioGroup";
+import Radio from "./Radio";
+import "../style/radioCss.css";
+
 
 
 const Main = () => {
     const [isActive,setIsActive]=useState(true);
+    const [x,setX]=useState([]);
+
+    const handleClickRadioBtn2 = (e)=>{
+      console.log(e.target.value)
+      setX(e.target.value)
+    }
+
+
     return (
         <>
         <Inner>
@@ -24,8 +35,78 @@ const Main = () => {
                   <span className='female'>{isActive ? "":"여"}</span>
                 </ToggleSwitch>
 
+                <EmotionRadio>
+                  <label>
+                    <input
+                      type='radio'
+                      className='input-hidden'
+                      value="1"
+                      checked={x === "1"}
+                      onChange={handleClickRadioBtn2}
+                    />
+                  화남</label>
+                  <label>
+                    <input
+                      type='radio'
+                      className='input-hidden'
+                      value="2"
+                      checked={x === "2"}
+                      onChange={handleClickRadioBtn2}
+                    />
+                    슬픔</label>
+                    <label>
+                    <input
+                      type='radio'
+                      className='input-hidden'
+                      value="3"
+                      checked={x === "3"}
+                      onChange={handleClickRadioBtn2}
+                    />
+                    평온</label>
+                    <label>
+                    <input
+                      type='radio'
+                      className='input-hidden'
+                      value="4"
+                      checked={x === "4"}
+                      onChange={handleClickRadioBtn2}
+                    />
+                    즐거움</label>
+                    <label>
+                    <input
+                      type='radio'
+                      className='input-hidden'
+                      value="5"
+                      checked={x === "5"}
+                      onChange={handleClickRadioBtn2}
+                    />
+                    놀람</label>
+                </EmotionRadio>
+                {/* <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    alert(`${e.target.contact.value}를 통해 연락드리겠습니다!`);
+                  }}
+                >
+                  <RadioGroup label="연락 방법">
+                    <Radio name="contact" value="EMAIL" defaultChecked>
+                      이메일
+                    </Radio>
+                    <Radio name="contact" value="PHONE">
+                      전화
+                    </Radio>
+                    <Radio name="contact" value="FAX">
+                      팩스
+                    </Radio>
+                    <Radio name="contact" value="MAIL" disabled>
+                      우편
+                    </Radio>
+                  </RadioGroup>
+                  <button type="submit">제출</button>
+                </form> */}
+
                 <SubmitBtn>
-                  <span>제출하기</span>
+                  제출하기!
                 </SubmitBtn>
             </MainWrapper>
         </Inner>
@@ -136,7 +217,6 @@ const CheckBox = styled.input`
     transform: translateX(100px);
   }
 `
-
 const SubmitBtn=styled.button`
   position: absolute;
   bottom:50px;
@@ -147,3 +227,19 @@ const SubmitBtn=styled.button`
     font-size:60px;
   }
 `
+const EmotionRadio=styled.div`
+  position:absolute;
+  width:300px;
+  height:100px;
+  background-color:lightblue;
+  top:250px;
+  right:150px;
+  
+
+  /* .input-hidden{
+    visibility:hidden;
+  } */
+  
+`
+
+
