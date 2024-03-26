@@ -122,6 +122,7 @@ const Main = () => {
                   제출하기!
                 </SubmitBtn>
                 <button className='three-btn' onClick={goToThree}>3D</button>
+                <button className='api-btn' onClick={goToApi}>api</button>
             </MainWrapper>
         </Inner>
         </>
@@ -148,6 +149,12 @@ const MainWrapper=styled.div`
       position:absolute;
       right:100px;
       bottom: 10px;
+    }
+
+    .api-btn{
+      position:absolute;
+      right:200px;
+      bottom:10px;
     }
 
 `
