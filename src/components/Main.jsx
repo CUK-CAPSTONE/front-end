@@ -3,13 +3,25 @@ import styled from "styled-components";
 import { FaFileUpload } from "react-icons/fa";
 import RadioGroup from "./RadioGroup";
 import Radio from "./Radio";
+import { useNavigate } from 'react-router-dom';
 import "../style/radioCss.css";
+import Head from './Head';
+
 
 
 
 const Main = () => {
     const [isActive,setIsActive]=useState(true);
     const [x,setX]=useState([]);
+
+    const navigate = useNavigate();
+
+    const goToThree = () =>{
+      navigate("/three");
+    }
+    const goToApi =()=>{
+      navigate("/api");
+    }
 
     const handleClickRadioBtn2 = (e)=>{
       console.log(e.target.value)
@@ -19,6 +31,7 @@ const Main = () => {
 
     return (
         <>
+        <Head/>
         <Inner>
             <MainWrapper>
                 <UploadBtn>
@@ -108,6 +121,7 @@ const Main = () => {
                 <SubmitBtn>
                   제출하기!
                 </SubmitBtn>
+                <button className='three-btn' onClick={goToThree}>3D</button>
             </MainWrapper>
         </Inner>
         </>
@@ -129,6 +143,12 @@ const MainWrapper=styled.div`
     background-color:#fdb882;
     text-align:center;
     justify-content:center;
+
+    .three-btn{
+      position:absolute;
+      right:100px;
+      bottom: 10px;
+    }
 
 `
 const UploadBtn=styled.button`
