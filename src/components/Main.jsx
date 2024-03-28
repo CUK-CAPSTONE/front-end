@@ -160,7 +160,7 @@ const Main = () => {
                 <button className='api-btn' onClick={goToApi}>api</button>
             </MainWrapper>
             <ProjectInfoWrapper>
-              JRGB inf
+              JRGB info
             </ProjectInfoWrapper>
         </Inner>
         </>
