@@ -27,10 +27,16 @@ const TestApi = () => {
     async function initApi(){
         try{
             const result = await axios.post('/api/user/images',{
-                withCredentials:true,
-                headers:{ 'x-api-key':"testapieky1234"},
-                "phone": "01012345678",
-                "email": "root@naver.com",
+                headers:{
+                    "accept" : "*/*",
+                    "x-api-key" : "rkxhfflreogkrrywkflsrhql2024",
+                    "Content-Type" : "application/json"
+                },
+                
+                data:{
+                    "phone": "01012345678",
+                    "email": "root@naver.com"
+                }
             });
             console.log(result);
         }

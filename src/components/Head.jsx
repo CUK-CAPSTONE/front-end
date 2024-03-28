@@ -16,11 +16,14 @@ const Head = () => {
 export default Head;
 
 const HeadWrapper=styled.div`
+    position:fixed;
+    z-index:2;
     width:100%;
     height:40px;
     border-bottom:solid black 1px;
     padding-top:10px;
     padding-bottom:20px;
+    background-color:white;
     .inner{
         width:1600px;
         margin-left:100px;

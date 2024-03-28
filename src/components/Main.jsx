@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import { FaFileUpload } from "react-icons/fa";
-import RadioGroup from "./RadioGroup";
-import Radio from "./Radio";
 import { useNavigate } from 'react-router-dom';
 import "../style/radioCss.css";
 import Head from './Head';
@@ -13,6 +11,65 @@ import Head from './Head';
 const Main = () => {
     const [isActive,setIsActive]=useState(true);
     const [x,setX]=useState([]);
+
+    const wholePage = document.getElementsByClassName("slider");
+    const totalPageNumber = wholePage[0]?.children?.length;
+
+    const [currentInputs,setCurrentInputs]=useState({
+      currentWindowHeight:window.innerHeight,
+      currentPage:0,
+    });
+
+    const setPageSize=()=>{
+      setCurrentInputs({currentWindowHeight:window.innerHeight})
+    };
+
+    const setPage=()=>{
+      for(var i=1;i<totalPageNumber;i++){
+        if(window.scrollY<currentInputs.currentWindowHeight*i){
+          setCurrentInputs({...currentInputs,currentPage:i});
+          return;
+        }
+      }
+    };
+
+    useEffect(()=>{
+      window.addEventListener('scroll',setPage);
+      window.addEventListener('resize',setPageSize);
+      return ()=>{
+        window.removeEventListener("scroll",setPage);
+        window.removeEventListener("resize",setPageSize);
+      };
+    });
+  
+    window.addEventListener("wheel", (e) => {
+      // 마우스 휠을 내릴때
+      if (e.deltaY > 0) {
+        let p = 1;
+        while (p < totalPageNumber) {
+          if (currentInputs.currentPage === p) {
+            window.scrollTo({
+              top: currentInputs.currentWindowHeight * p,
+              behavior: "smooth",
+            });
+          }
+          p++;
+        }
+      }
+      // 마우스 휠을 올릴때
+      if (e.deltaY < 0) {
+        let p = 1;
+        while (p < totalPageNumber) {
+          if (currentInputs.currentPage === p) {
+            window.scrollTo({
+              top: currentInputs.currentWindowHeight * (p - 1),
+              behavior: "smooth",
+            });
+          }
+          p++;
+        }
+      }
+    });
 
     const navigate = useNavigate();
 
@@ -32,7 +89,7 @@ const Main = () => {
     return (
         <>
         <Head/>
-        <Inner>
+        <Inner className='slider'>
             <MainWrapper>
                 <UploadBtn>
                     <div className='uploadicon'><FaFileUpload /></div>
@@ -95,28 +152,6 @@ const Main = () => {
                     />
                     놀람</label>
                 </EmotionRadio>
-                {/* <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    alert(`${e.target.contact.value}를 통해 연락드리겠습니다!`);
-                  }}
-                >
-                  <RadioGroup label="연락 방법">
-                    <Radio name="contact" value="EMAIL" defaultChecked>
-                      이메일
-                    </Radio>
-                    <Radio name="contact" value="PHONE">
-                      전화
-                    </Radio>
-                    <Radio name="contact" value="FAX">
-                      팩스
-                    </Radio>
-                    <Radio name="contact" value="MAIL" disabled>
-                      우편
-                    </Radio>
-                  </RadioGroup>
-                  <button type="submit">제출</button>
-                </form> */}
 
                 <SubmitBtn>
                   제출하기!
@@ -124,6 +159,9 @@ const Main = () => {
                 <button className='three-btn' onClick={goToThree}>3D</button>
                 <button className='api-btn' onClick={goToApi}>api</button>
             </MainWrapper>
+            <ProjectInfoWrapper>
+              Info
+            </ProjectInfoWrapper>
         </Inner>
         </>
     );
@@ -134,12 +172,13 @@ export default Main;
 const Inner=styled.div`
     width:1200px;
     margin-left:300px;
+    overflow:hidden;
 `
 
 const MainWrapper=styled.div`
     position:relative;
     width:100%;
-    height:800px;
+    height:100vh;
     display:flex;
     background-color:#fdb882;
     text-align:center;
@@ -161,6 +200,7 @@ const MainWrapper=styled.div`
 const UploadBtn=styled.button`
     position: absolute;
     left:100px;
+    top:100px;
     margin-top:50px;
     font-size:24px;
     height:700px;
@@ -267,6 +307,12 @@ const EmotionRadio=styled.div`
     visibility:hidden;
   } */
   
+`
+
+const ProjectInfoWrapper=styled.div`
+  width:100%;
+  height:100vh;
+  background-color:grey;
 `
 
 
