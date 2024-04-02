@@ -37,7 +37,7 @@ const Main = () => {
       setPageSize();
       setPage();
     },[]);
-    
+
     useEffect(()=>{
       wheelAction();
       window.addEventListener('scroll',setPage);
@@ -170,7 +170,10 @@ const Main = () => {
                 <button className='api-btn' onClick={goToApi}>api</button>
             </MainWrapper>
             <ProjectInfoWrapper>
-              JRGB in
+              <InfoInner>
+                <div className='textbox'>Info text</div>
+                <div className='text-body'>저희 자린고비는 어쩌고저쩌고</div>
+              </InfoInner>
             </ProjectInfoWrapper>
         </Inner>
         </>
@@ -320,9 +323,37 @@ const EmotionRadio=styled.div`
 `
 
 const ProjectInfoWrapper=styled.div`
+  position: relative;
   width:100%;
   height:100vh;
   background-color:grey;
+`
+const InfoInner=styled.div`
+  position:absolute;
+  background-color:white;
+  width:80%;
+  height:80%;
+  top:10%;
+  margin-left:10%;
+  .textbox{
+    width:80%;
+    height:100px;
+    margin-left:10%;
+    margin-top:10px;
+    margin-bottom:10px;
+    text-align:center;
+    background-color:darkgray;
+  }
+  .text-body{
+    position:absolute;
+    bottom:50px;
+    width:80%;
+    height:500px;
+    margin-left:10%;
+    background-color:darkgreen;
+    color:white;
+    text-align:center;
+  }
 `
 
 
