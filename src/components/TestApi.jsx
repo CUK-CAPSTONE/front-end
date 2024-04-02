@@ -26,17 +26,8 @@ const TestApi = () => {
     // }
     async function initApi(){
         try{
-            const result = await axios.post('/api/user/images',{
-                headers:{
-                    "accept" : "*/*",
-                    "x-api-key" : "rkxhfflreogkrrywkflsrhql2024",
-                    "Content-Type" : "application/json"
-                },
-                
-                data:{
-                    "phone": "01012345678",
-                    "email": "root@naver.com"
-                }
+            const result = await axios.get('/api/test',{
+                headers:{"x-api-key":"wkflsrhql2024"}
             });
             console.log(result);
         }
