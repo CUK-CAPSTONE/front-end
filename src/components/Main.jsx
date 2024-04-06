@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import { FaFileUpload } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import "../style/radioCss.css";
+import "../style/font.css";
 import Head from './Head';
 
 
@@ -93,6 +93,7 @@ const Main = () => {
     const handleClickRadioBtn2 = (e)=>{
       console.log(e.target.value)
       setX(e.target.value)
+
     }
 
 
@@ -116,58 +117,58 @@ const Main = () => {
                 </ToggleSwitch>
 
                 <EmotionRadio>
-                  <label>
+                  <div className='borderbox'>
+                  <label className={x==="1" ? 'input-hidden active' : 'input-hidden'}>
                     <input
                       type='radio'
-                      className='input-hidden'
                       value="1"
                       checked={x === "1"}
                       onChange={handleClickRadioBtn2}
                     />
-                  화남</label>
-                  <label>
+                  <span>화남</span></label>
+                  <label className={x==="2" ? 'input-hidden active' : 'input-hidden'}>
                     <input
                       type='radio'
-                      className='input-hidden'
                       value="2"
                       checked={x === "2"}
                       onChange={handleClickRadioBtn2}
                     />
-                    슬픔</label>
-                    <label>
+                    <span>슬픔</span></label>
+                    <label className={x==="3" ? 'input-hidden active' : 'input-hidden'}>
                     <input
                       type='radio'
-                      className='input-hidden'
                       value="3"
                       checked={x === "3"}
                       onChange={handleClickRadioBtn2}
                     />
-                    평온</label>
-                    <label>
+                    <span>평온</span></label>
+                    <label className={x==="4" ? "input-hidden active" : "input-hidden"}>
                     <input
                       type='radio'
-                      className='input-hidden'
                       value="4"
                       checked={x === "4"}
                       onChange={handleClickRadioBtn2}
                     />
-                    즐거움</label>
-                    <label>
+                    <span>즐거움</span></label>
+                    <label className={x==="5" ? 'input-hidden active' : 'input-hidden'}>
                     <input
                       type='radio'
-                      className='input-hidden'
                       value="5"
                       checked={x === "5"}
                       onChange={handleClickRadioBtn2}
                     />
-                    놀람</label>
+                    <span>놀람</span></label>
+                    </div>
                 </EmotionRadio>
 
                 <SubmitBtn>
-                  제출하기!
+                  <span>생성하기!</span>
                 </SubmitBtn>
-                <button className='three-btn' onClick={goToThree}>3D</button>
-                <button className='api-btn' onClick={goToApi}>api</button>
+                <SubBtnWrapper>
+                  <span><button className='three-btn' onClick={goToThree}>3D</button></span>
+                  <span><button className='api-btn' onClick={goToApi}>api</button></span>
+                </SubBtnWrapper>
+                
             </MainWrapper>
             <ProjectInfoWrapper>
               <InfoInner>
@@ -187,13 +188,12 @@ const Inner=styled.div`
     margin-left:300px;
     overflow:hidden;
 `
-
 const MainWrapper=styled.div`
     position:relative;
     width:100%;
     height:100vh;
     display:flex;
-    background-color:#fdb882;
+    background-color:#DCDCDC;
     text-align:center;
     justify-content:center;
 
@@ -220,29 +220,31 @@ const UploadBtn=styled.button`
     width:500px;
     background-color:transparent;
     border:solid 1px black;
+    font-family:"SCDream";
+    border-radius:34px;
     .uploadicon{
         display:inline-block;
         font-size:60px;
     }
     &:hover{
-        background-color:#e69138;
+        background-color:#c3c3c3;
     }
 
 `
 const ToggleSwitch = styled.label`
   position: absolute;
-  top:100px;
-  right:250px;
+  top:150px;
+  right:100px;
   display: inline-block;
-  width: 200px;
-  height: 100px;
+  width: 400px;
+  height: 86px;
   
   .male{
     position:absolute;
     top:15px;
     left:20px;
     z-index:3;
-    font-size:60px;
+    font-size:52px;
     color:white;
   }
   .female{
@@ -250,7 +252,7 @@ const ToggleSwitch = styled.label`
     top:15px;
     right:20px;
     z-index:3;
-    font-size:60px;
+    font-size:52px;
   }
 `
 const ToggleSlider = styled.span`
@@ -263,19 +265,19 @@ const ToggleSlider = styled.span`
   background-color: #f13d52;
   -webkit-transition: .4s;
   transition: .4s;
-  /* border-radius: 34px; */
+  border-radius: 34px;
 
   &:before {
     position: absolute;
     content:  "";
-    height: 80px;
-    width: 80px;
+    height: 66px;
+    width: 190px;
     left: 10px;
     bottom: 10px;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
-    /* border-radius: 50%; */
+    border-radius: 34px;
   }
 `
 const CheckBox = styled.input`
@@ -292,36 +294,87 @@ const CheckBox = styled.input`
   }
 
   &:checked + ${ToggleSlider}:before {
-    -webkit-transform: translateX(100px);
-    -ms-transform: translateX(100px);
-    transform: translateX(100px);
+    -webkit-transform: translateX(189px);
+    -ms-transform: translateX(189px);
+    transform: translateX(189px);
   }
 `
 const SubmitBtn=styled.button`
   position: absolute;
-  bottom:50px;
+  background-color:#6EE046;
+  color:white;
+  bottom:70px;
   right:100px;
   width:400px;
   height:300px;
+  font-family:"SCDream";
+  border-radius:25%;
+  border:0px;
   span{
-    font-size:60px;
+    font-size:40px;
+  }
+  &:hover{
+    background-color:lightgray;
   }
 `
 const EmotionRadio=styled.div`
   position:absolute;
-  width:300px;
-  height:100px;
-  background-color:lightblue;
-  top:250px;
-  right:150px;
-  
-
-  /* .input-hidden{
-    visibility:hidden;
-  } */
+  display:flex;
+  gap:10px;
+  width:400px;
+  height:84px;
+  font-size:16px;
+  background-color:transparent;
+  top:350px;
+  right:100px;
+  display:flex;
+  justify-content:center;
+  text-align:center;
+  z-index:3;
+  .active{
+    background-color:#7EAEF6;
+  }
+  .borderbox{
+      display:flex;
+      gap:5px;
+      width:100%;
+      height:100%;
+      background-color:#508AE2;
+      position:absolute;
+      justify-content:center;
+      top:0px;
+      right:0px;
+      z-index:2;
+      border-radius:34px;
+    }
+  input{
+    display:none;
+  }
+  label{
+    position: relative;
+    background-color:transparent;
+    height:68px;
+    width:76px;
+    top:8px;
+    text-align:center;
+    border-radius:20px;
+    box-shadow: 0px 0px 5px #444;
+    span{
+      height:100%;
+      line-height:68px;
+    }
+  }
+  label:first-of-type{
+    margin-left:10px;
+  }
+  label:last-of-type{
+    margin-right:10px;
+  }
+  label:hover{
+    background-color:#9bc2cf;
+  }
   
 `
-
 const ProjectInfoWrapper=styled.div`
   position: relative;
   width:100%;
@@ -354,6 +407,17 @@ const InfoInner=styled.div`
     color:white;
     text-align:center;
   }
+`
+const SubBtnWrapper=styled.div`
+  display:flex;
+  button{
+    display:inline-block;
+    background-color:white;
+    border:0px;
+    border-radius:25%;
+
+  }
+
 `
 
 

@@ -55,6 +55,10 @@ const HeadWrapper=styled.div`
             line-height:1.5;
             border:solid 1px black;
             border-radius:2em;
+            &:hover{
+                background-color:black;
+                color:white;
+            }
         }
     }
 `
