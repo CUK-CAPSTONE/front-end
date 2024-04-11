@@ -4,6 +4,14 @@ import { FaFileUpload } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import "../style/font.css";
 import Head from './Head';
+//icon
+import { FaGithub } from "react-icons/fa";
+import { FaRegAngry } from "react-icons/fa";
+import { FaRegFaceSadTear } from "react-icons/fa6";
+import { FaRegGrin } from "react-icons/fa";
+import { FaRegGrinSquint } from "react-icons/fa";
+import { FaRegSurprise } from "react-icons/fa";
+
 
 
 
@@ -125,7 +133,7 @@ const Main = () => {
                       checked={x === "1"}
                       onChange={handleClickRadioBtn2}
                     />
-                  <span>화남</span></label>
+                  <span><FaRegAngry/></span></label>
                   <label className={x==="2" ? 'input-hidden active' : 'input-hidden'}>
                     <input
                       type='radio'
@@ -133,7 +141,7 @@ const Main = () => {
                       checked={x === "2"}
                       onChange={handleClickRadioBtn2}
                     />
-                    <span>슬픔</span></label>
+                    <span><FaRegFaceSadTear/></span></label>
                     <label className={x==="3" ? 'input-hidden active' : 'input-hidden'}>
                     <input
                       type='radio'
@@ -141,7 +149,7 @@ const Main = () => {
                       checked={x === "3"}
                       onChange={handleClickRadioBtn2}
                     />
-                    <span>평온</span></label>
+                    <span><FaRegGrin/></span></label>
                     <label className={x==="4" ? "input-hidden active" : "input-hidden"}>
                     <input
                       type='radio'
@@ -149,7 +157,7 @@ const Main = () => {
                       checked={x === "4"}
                       onChange={handleClickRadioBtn2}
                     />
-                    <span>즐거움</span></label>
+                    <span><FaRegGrinSquint/></span></label>
                     <label className={x==="5" ? 'input-hidden active' : 'input-hidden'}>
                     <input
                       type='radio'
@@ -157,7 +165,7 @@ const Main = () => {
                       checked={x === "5"}
                       onChange={handleClickRadioBtn2}
                     />
-                    <span>놀람</span></label>
+                    <span><FaRegSurprise/></span></label>
                     </div>
                 </EmotionRadio>
 
@@ -172,8 +180,13 @@ const Main = () => {
             </MainWrapper>
             <ProjectInfoWrapper>
               <InfoInner>
-                <div className='textbox'>Info text</div>
-                <div className='text-body'>저희 자린고비는 어쩌고저쩌고</div>
+                <div className='textbox'><img src='img/logo_JRGB_2D.png'/></div>
+                <div className='text-body'><br/>
+                <span className='body-title'>JRGB - 생성형 AI와 3d print를 활용한 사용자 맞춤 3D 악세사리 출력 서비스</span><br/><br/>
+                저희 [자린고비] 팀은 생성형 AI 모델과 3D 프린터를 통해 사용자가 선호하는 물체에 대한 데이터를<br/>
+                먼저 입력받고, 성별, 감정등의 파라미터를 추가로 선택받아 선호하는 물체를 파라미터에 맞는 <br/>
+                3D 객체를 생성하여 3D프린터로 출력하는 악세사리 출력 서비스를 제작하였습니다.  </div>
+                <div className='btn-box'><button className='github-btn' onClick={()=>window.open("https://github.com/CUK-CAPSTONE")}><FaGithub/></button></div>
               </InfoInner>
             </ProjectInfoWrapper>
         </Inner>
@@ -193,7 +206,7 @@ const MainWrapper=styled.div`
     width:100%;
     height:100vh;
     display:flex;
-    background-color:#DCDCDC;
+    background-color:#ececec;
     text-align:center;
     justify-content:center;
 
@@ -308,13 +321,13 @@ const SubmitBtn=styled.button`
   width:400px;
   height:300px;
   font-family:"SCDream";
-  border-radius:25%;
+  border-radius:34px;
   border:0px;
   span{
     font-size:40px;
   }
   &:hover{
-    background-color:lightgray;
+    background-color:#58b338;
   }
 `
 const EmotionRadio=styled.div`
@@ -331,6 +344,9 @@ const EmotionRadio=styled.div`
   justify-content:center;
   text-align:center;
   z-index:3;
+  span{
+    font-size:36px;
+  }
   .active{
     background-color:#7EAEF6;
   }
@@ -379,34 +395,66 @@ const ProjectInfoWrapper=styled.div`
   position: relative;
   width:100%;
   height:100vh;
-  background-color:grey;
+  background-color:#ececec;
 `
 const InfoInner=styled.div`
   position:absolute;
-  background-color:white;
+  background-color:transparent;
   width:80%;
   height:80%;
   top:10%;
   margin-left:10%;
+  img{
+    position:relative;
+    margin:0 auto;
+    height:190px;
+    width:190px;
+    }
   .textbox{
     width:80%;
-    height:100px;
+    height:200px;
     margin-left:10%;
-    margin-top:10px;
+    margin-top:30px;
     margin-bottom:10px;
     text-align:center;
-    background-color:darkgray;
+    position: relative;
   }
   .text-body{
     position:absolute;
+    bottom:180px;
+    width:80%;
+    height:300px;
+    margin-left:10%;
+    background-color:#d9d9d9;
+    text-align:center;
+    box-shadow: inset 0px 0px 10px #666;
+  }
+  .body-title{
+    font-size:20px;
+  }
+  .btn-box{
+    position:absolute;
     bottom:50px;
     width:80%;
-    height:500px;
+    height:200px;
     margin-left:10%;
-    background-color:darkgreen;
+    display:flex;
+    justify-content:center;
+    .github-btn{
+    margin:0 auto;
+    background-color:#6EE046;
     color:white;
-    text-align:center;
+    width:224px;
+    height:52px;
+    border-radius:34px;
+    position: absolute;
+    bottom:10px;
+    &:hover{
+      background-color:#58b338;
+    }
   }
+  }
+  
 `
 const SubBtnWrapper=styled.div`
   display:flex;
