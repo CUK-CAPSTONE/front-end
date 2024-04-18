@@ -1,20 +1,44 @@
-import { useLoader } from '@react-three/fiber';
+import { useLoader, useThree } from '@react-three/fiber';
 import React from 'react';
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
-import sea_turtle from '../obj/sea_turtle.obj';
-import turtle_texture from '../obj/sea_turtle_texture.jpg';
-import { useTexture } from '@react-three/drei';
-import { MeshStandardMaterial } from 'three';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { TextureLoader } from 'three/src/loaders/TextureLoader';
 
 const Obj = () => {
-    const model=useLoader(OBJLoader,sea_turtle);
-    const texture=useTexture(turtle_texture);
+    const textureLoader = new TextureLoader();
+    const loaderObj = new OBJLoader();
+    const loaderMtl = new MTLLoader();
+    const colorMap = textureLoader.load(require('../obj/catt.jpg'));
+
+    const {scene}= useThree();
+
+    loaderMtl.load('models/obj/catm.mtl',
+        mtl=>{
+            mtl.preload();
+            
+            loaderObj.setMaterials(mtl);
+            loaderObj.load(
+                'models/obj/cat.obj',
+                obj=>{
+                    obj.children[0].material.map = colorMap;
+
+                    scene.add(obj);
+                }
+            )
+        })
+    // const materials=useLoader(MTLLoader,'models/obj/catm.mtl');
+    // const texture=useLoader(TextureLoader,'models/obj/catt.jpg');
+    // const object = useLoader(OBJLoader, 'models/obj/cat.obj', loader => {
+    //     materials.preload();
+    //     loader.setMaterials(materials);
+    // })
     return (
-        <mesh position={[0,0, 0]}>
-            <primitive object={model} scale={4.0}/>
-            <meshStandardMaterial map={texture} attach="meterial"/>
-            {/* 텍스쳐 필요!!! 지금없음 */}
-        </mesh>
+        // <mesh position={[0,0, 0]}>
+        //     <primitive object={object} scale={1.0}/>
+        //     <meshBasicMaterial attach="material"/>
+        //     <meshStandardMaterial map={texture}/>
+        // </mesh>
+        null
     );
 };
 
