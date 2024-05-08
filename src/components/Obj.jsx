@@ -3,6 +3,7 @@ import React from 'react';
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { TextureLoader } from 'three/src/loaders/TextureLoader';
+import { BoxGeometry, Mesh, MeshStandardMaterial } from "three";
 
 const Obj = () => {
     const textureLoader = new TextureLoader();
@@ -10,7 +11,7 @@ const Obj = () => {
     const loaderMtl = new MTLLoader();
     const colorMap = textureLoader.load(require('../obj/catt.jpg'));
 
-    const {scene}= useThree();
+    const {scene,camera}= useThree();
 
     loaderMtl.load('models/obj/catm.mtl',
         mtl=>{
@@ -21,11 +22,15 @@ const Obj = () => {
                 'models/obj/cat.obj',
                 obj=>{
                     obj.children[0].material.map = colorMap;
-
+                    // const geometry=new BoxGeometry(100,10,100);
+                    // const newbox=Mesh(geometry,mtl);
+                    // newbox.position.set(0, 10, 0);
+                    // scene.add(newbox);
                     scene.add(obj);
                 }
             )
         })
+        
     // const materials=useLoader(MTLLoader,'models/obj/catm.mtl');
     // const texture=useLoader(TextureLoader,'models/obj/catt.jpg');
     // const object = useLoader(OBJLoader, 'models/obj/cat.obj', loader => {

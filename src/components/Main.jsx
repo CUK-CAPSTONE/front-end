@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
-import { FaFileUpload } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import "../style/font.css";
 import Head from './Head';
@@ -11,6 +10,7 @@ import { FaRegFaceSadTear } from "react-icons/fa6";
 import { FaRegGrin } from "react-icons/fa";
 import { FaRegGrinSquint } from "react-icons/fa";
 import { FaRegSurprise } from "react-icons/fa";
+import Uploader from './Uploader';
 
 
 
@@ -111,8 +111,7 @@ const Main = () => {
         <Inner className='slider'>
             <MainWrapper>
                 <UploadBtn>
-                    <div className='uploadicon'><FaFileUpload /></div>
-                    <div>사진 업로드</div>
+                    <Uploader/>
                 </UploadBtn>
 
                 <ToggleSwitch>
@@ -235,10 +234,6 @@ const UploadBtn=styled.button`
     border:solid 1px black;
     font-family:"SCDream";
     border-radius:34px;
-    .uploadicon{
-        display:inline-block;
-        font-size:60px;
-    }
     &:hover{
         background-color:#c3c3c3;
     }
