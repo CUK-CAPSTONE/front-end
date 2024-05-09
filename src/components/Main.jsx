@@ -234,9 +234,7 @@ const UploadBtn=styled.button`
     border:solid 1px black;
     font-family:"SCDream";
     border-radius:34px;
-    &:hover{
-        background-color:#c3c3c3;
-    }
+    
 
 `
 const ToggleSwitch = styled.label`

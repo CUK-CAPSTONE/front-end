@@ -12,10 +12,10 @@ const Uploader = () => {
     const fileref = useRef();
 
     const uploadSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         try {
             const url = await uploadImg(file)
-            console.log(url);
+            console.log(file);
             setSuccess('업로드 완료!');
             setTimeout(()=>{
                 setSuccess(null)
@@ -36,23 +36,54 @@ const Uploader = () => {
         const reader = new FileReader();
         reader.readAsDataURL(uploadFile);
         reader.onloadend = ()=> {
-        setFile(reader.result);
+        setFile(reader.result)
         }
-        uploadSubmit();
+        
+        
      }
 
     return (
         <TotalWrapper>
-            <div className='uploadicon'><FaFileUpload /></div>
-            <div>사진 업로드</div>
+            
+            
 
             <img src = {file} img = "img"/>
-            <input type = "file" accept = "image/*" onChange = {onChangeImage}/>
+            <label for="file">
+                <div class="btn-upload"><div className='uploadicon'><FaFileUpload /></div>
+            <div>사진 업로드</div></div>
+            </label>
+            <input type = "file" accept = "image/*" id="file" onChange = {onChangeImage}/>
+            <button onClick={uploadSubmit}>upload</button>
+
+            <div>{success}</div>
         </TotalWrapper>
     );
 };
 
 const TotalWrapper=styled.div`
+    img{
+        margin: 0 auto;
+        padding-bottom:10px;
+        width:400px;
+        height:400px;
+        border:solid black 1px;
+    }
+    #file{
+        display:none;
+    }
+    .btn-upload{
+        width:448px;
+        height:100%;
+        z-index:2;
+        background-color:transparent;
+        border:solid 1px black;
+        border-radius:34px;
+        margin-top:20px;
+        margin-left:20px;
+        &:hover{
+            background-color:#c3c3c3;
+        }   
+    }
     .uploadicon{
         display:inline-block;
         font-size:60px;
