@@ -5,6 +5,7 @@ import { BrowserRouter, Routes,Route } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import ThreeD from './components/ThreeD';
 import TestApi from './components/TestApi';
+import Keyword from './api/Keyword';
 
 function App() {
   return (

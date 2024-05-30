@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { uploadImg } from '../api/imgupload';
 import styled from 'styled-components';
 import { FaFileUpload } from "react-icons/fa";
+import Keyword from '../api/Keyword';
 
 const Uploader = () => {
 
@@ -10,25 +11,33 @@ const Uploader = () => {
     const [success,setSuccess] = useState(null);
     const [error,setError]= useState(null);
     const fileref = useRef();
+    const [keyword, setKeyword] = useState(null);
+    const [keywordText, setKeywordText] = useState(null);
 
-    const uploadSubmit = async (e) => {
-        // e.preventDefault();
-        try {
-            const url = await uploadImg(file)
-            console.log(file);
-            setSuccess('업로드 완료!');
-            setTimeout(()=>{
-                setSuccess(null)
-            },2000);
-            setFile(null);
-            if (fileref.current){
-                fileref.current.value='';
-            }
-        } catch (error) {
-            console.error(error);
-            setError('업로드 실패 :(');
-        }finally{setIsLoading(false)}
-    }
+    const handleFetchKeyword = ({ keyword, keywordText }) => {
+        setKeyword(keyword);
+        setKeywordText(keywordText);
+    };
+
+    // const uploadSubmit = async (e) => {
+    //     e.preventDefault();
+    //     await fetchKeywordData();
+    //     setDataFetched(true);
+    //     try {
+
+    //         setSuccess('업로드 완료!');
+    //         setTimeout(()=>{
+    //             setSuccess(null)
+    //         },2000);
+    //         setFile(null);
+    //         if (fileref.current){
+    //             fileref.current.value='';
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         setError('업로드 실패 :(');
+    //     }finally{setIsLoading(false)}
+    // }
 
     const onChangeImage = (e)=> {
         const {files} = e.target;
@@ -53,7 +62,17 @@ const Uploader = () => {
             <div>사진 업로드</div></div>
             </label>
             <input type = "file" accept = "image/*" id="file" onChange = {onChangeImage}/>
-            <button onClick={uploadSubmit}>upload</button>
+            <Container>
+                <Background />
+                <Progress percent={70} />
+            </Container>
+            <Keyword onFetchKeyword={handleFetchKeyword} />
+            {keyword && (
+                <div>
+                    <p>Keyword: {JSON.stringify(keyword)}</p>
+                    <p>Keyword Text: {keywordText}</p>
+                </div>
+            )}
 
             <div>{success}</div>
         </TotalWrapper>
@@ -89,4 +108,31 @@ const TotalWrapper=styled.div`
         font-size:60px;
     }
 `
+
+const Container = styled.div`
+  margin: 10px 0;
+  height: 10px;
+  width: 100%;
+  position: relative;
+`
+
+const BaseBox = styled.div`
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 3px;
+  transition: width 10s ease-in-out;
+`
+
+const Background = styled(BaseBox)`
+  background: grey;
+  width: 100%;
+`
+
+const Progress = styled(BaseBox)`
+  background: blue;
+  width: ${({ percent }) => percent}%;
+`
+
 export default Uploader;

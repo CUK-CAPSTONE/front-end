@@ -1,7 +1,6 @@
 import { Canvas } from '@react-three/fiber'
-import React from 'react'
-import { OrbitControls, useGLTF } from '@react-three/drei'
-import { House } from './House'
+import React, { useState } from 'react'
+import { OrbitControls} from '@react-three/drei'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 //icon
@@ -9,24 +8,28 @@ import { FaRedo } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
 import { FaPrint } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
+
+//model
 import Obj from './Obj'
+
 
 export default function ThreeD() {
     const navigate = useNavigate();
     const goToHome = () =>{
         navigate("/");
       }
+
+      const [obj,setObj]=useState(null);
   return (
     <>
     <TotalWrapper>
         <span><button className="goHome" onClick={goToHome}><FaHome/></button></span>
       <ThreeDWrapper>
-        <Canvas camera={{position:[20,5,-8]}}>
+        <Canvas camera={{position:[20,-10,-8]}}>
           <OrbitControls/>
-          <axesHelper args={[200, 200, 200]} />
+          {/* <axesHelper args={[200, 200, 200]} /> */}
           <ambientLight intensity={1} />
           <group rotation-y={-Math.PI / 2}>
-            {/* <House scale={[100,100,100]}/> */}
             <Obj/>
           </group>
         </Canvas>

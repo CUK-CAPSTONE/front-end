@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+
 // export async function uploadImg(file) {
 //     try {
 //         const formData = new FormData();

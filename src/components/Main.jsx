@@ -20,7 +20,7 @@ const Main = () => {
     const [isActive,setIsActive]=useState(true);
     const [x,setX]=useState([]);
 
-    const wholePage = document.getElementsByClassName("slider");
+    const wholePage = document.getElementsByClassName("slider"); //원페이지 스크롤
     const totalPageNumber = wholePage[0]?.children?.length;
 
     const [currentInputs,setCurrentInputs]=useState({
@@ -86,17 +86,17 @@ const Main = () => {
           }
         }
       });
-    }
+    } //원페이지 스크롤 함수
     
 
     const navigate = useNavigate();
 
     const goToThree = () =>{
       navigate("/three");
-    }
+    } //3D화면
     const goToApi =()=>{
       navigate("/api");
-    }
+    } //api 테스트
 
     const handleClickRadioBtn2 = (e)=>{
       console.log(e.target.value)
@@ -460,5 +460,6 @@ const SubBtnWrapper=styled.div`
   }
 
 `
+
 
 
