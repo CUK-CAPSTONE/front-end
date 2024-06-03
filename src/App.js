@@ -1,11 +1,11 @@
 import './App.css';
-import Main from './components/Main';
+import Main from './page/Main';
 import GlobalStyle from './style/GlobalStyle';
 import { BrowserRouter, Routes,Route } from 'react-router-dom';
-import NotFound from './components/NotFound';
-import ThreeD from './components/ThreeD';
+import NotFound from './page/NotFound';
+import ThreeD from './page/ThreeD';
 import TestApi from './components/TestApi';
-import Keyword from './api/Keyword';
+import ThreeDreal from './page/ThreeDreal';
 
 function App() {
   return (
@@ -15,8 +15,9 @@ function App() {
    <Routes>
       <Route path='/' element={<Main/>}/>
       <Route path='*' element={<NotFound/>}/>
-      <Route path='/three' element={<ThreeD/>}/>
+      <Route path='/three' element={<ThreeDreal/>}/>
       <Route path='/api' element={<TestApi/>}/>
+      <Route path='/tt' element={<ThreeDreal/>}/>
    </Routes>
    </BrowserRouter>
    </>

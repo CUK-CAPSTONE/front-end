@@ -1,38 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const TestApi = () => {
     useEffect(()=>{
-        initApi()
+        initApi();
     },[]);
 
     
     async function initApi(){
-        try{
-            const response = await axios.post(
-                'https://capstone.hyunn.site/api/user/images',
-                {
-                  'phone': '01012345678',
-                  'email': 'root@naver.com'
-                },
-                {
-                  headers: {
-                    'accept': '*/*',
-                    'x-api-key': 'wkflsrhql2024',
-                    'Content-Type': 'application/json'
+          // const [mtl,setMtl]=useState(null);
+          // const [texture,setTexture]=useState(null);
+      
+          try{
+              const response= await axios.post(
+                  `https://capstone.hyunn.site/api/image/text_to_3D/cat`,
+                  {
+                      "image": "img/human.jpg",
+                      "gender": "male",
+                      "emotion": "happy"
+                  },
+                  {
+                      headers:{
+                          'accept':'*/*',
+                          'x-api-key':'wkflsrhql2024',
+                          'Content-Type':'application/json'
+                      }
                   }
-                }
-              );
-
-            
-            
-            console.log(typeof(response));
-            console.log(JSON.stringify(response))
-
-        }
-        catch(error){
-            console.error(error);
-        }
+              )
+              console.log(response);
+          }
+          catch(error){
+              console.log(error);
+          }
     }
 
     return (

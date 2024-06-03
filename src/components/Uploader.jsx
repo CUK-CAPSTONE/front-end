@@ -1,138 +1,254 @@
-import React, { useContext, useRef, useState } from 'react'
-import { uploadImg } from '../api/imgupload';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import { FaFileUpload } from "react-icons/fa";
+import styled from 'styled-components';
 import Keyword from '../api/Keyword';
+import { useDataContext } from '../context/FourContext';
 
-const Uploader = () => {
+const Uploader = ({ emote, gender }) => {
+    const [file, setFile] = useState(null); //사진 (키워드 api 요소)
+    const [photoReady, setPhotoReady] = useState(false);
+    const [success, setSuccess] = useState(null);
+    const [animalObj, setAnimalObj] = useState(null);
+    const [animalText, setAnimalText] = useState(null);
+    const [deerPer, setDeerPer] = useState(0);
+    const [dogPer, setDogPer] = useState(0);
+    const [catPer, setCatPer] = useState(0);
+    const [rabbitPer, setRabbitPer] = useState(0);
+    const [bearPer, setBearPer] = useState(0);
+    const [maxAnimal, setMaxAnimal] = useState(null);
 
-    const [file, setFile] = useState(null);
-    const [isLoading,setIsLoading] = useState(false);
-    const [success,setSuccess] = useState(null);
-    const [error,setError]= useState(null);
-    const fileref = useRef();
-    const [keyword, setKeyword] = useState(null);
-    const [keywordText, setKeywordText] = useState(null);
+    const { data, setData } = useDataContext();
 
     const handleFetchKeyword = ({ keyword, keywordText }) => {
-        setKeyword(keyword);
-        setKeywordText(keywordText);
+        setAnimalObj(keyword);
+        setAnimalText(keywordText);
+        updateStateBasedOnMaxValue(keyword);
+
+        setData(prevData => ({
+            ...prevData,
+            maxAnimal: Object.keys(keyword).reduce((a, b) => (keyword[a] > keyword[b] ? a : b)),
+            emote,
+            gender,
+            photo: file,
+        }));
     };
 
-    // const uploadSubmit = async (e) => {
-    //     e.preventDefault();
-    //     await fetchKeywordData();
-    //     setDataFetched(true);
-    //     try {
+    useEffect(() => {
+        console.log('Data updated:', data);
+    }, [data]);
 
-    //         setSuccess('업로드 완료!');
-    //         setTimeout(()=>{
-    //             setSuccess(null)
-    //         },2000);
-    //         setFile(null);
-    //         if (fileref.current){
-    //             fileref.current.value='';
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //         setError('업로드 실패 :(');
-    //     }finally{setIsLoading(false)}
-    // }
+    // 객체에서 가장 큰 값을 가진 동물 값 뽑아내기
+    const updateStateBasedOnMaxValue = (data) => {
+        let maxValue = -Infinity;
+        let maxAnimal = '';
 
-    const onChangeImage = (e)=> {
-        const {files} = e.target;
+        for (const [animal, value] of Object.entries(data)) {
+            // 퍼센테이지 숫자 업데이트
+            if (animal === 'deer') {
+                setDeerPer(value);
+            } else if (animal === 'cat') {
+                setCatPer(value);
+            } else if (animal === 'dog') {
+                setDogPer(value);
+            } else if (animal === 'rabbit') {
+                setRabbitPer(value);
+            } else if (animal === 'bear') {
+                setBearPer(value);
+            }
+
+            // api에 넣을 키워드 뽑아내기
+            if (value > maxValue) {
+                maxAnimal = animal;
+            }
+        }
+
+        if (maxAnimal) {
+            setMaxAnimal(maxAnimal);
+        }
+    };
+
+    // 이미지 제출 시 함수
+    const onChangeImage = (e) => {
+        const { files } = e.target;
         const uploadFile = files[0];
         const reader = new FileReader();
+
         reader.readAsDataURL(uploadFile);
-        reader.onloadend = ()=> {
-        setFile(reader.result)
+        reader.onloadend = () => {
+            setFile(reader.result);
+        };
+    };
+
+    // api 발사 준비
+    useEffect(() => {
+        if (file) {
+            setPhotoReady(true);
         }
-        
-        
-     }
+    }, [file]);
 
     return (
         <TotalWrapper>
-            
-            
-
-            <img src = {file} img = "img"/>
-            <label for="file">
-                <div class="btn-upload"><div className='uploadicon'><FaFileUpload /></div>
-            <div>사진 업로드</div></div>
-            </label>
-            <input type = "file" accept = "image/*" id="file" onChange = {onChangeImage}/>
-            <Container>
-                <Background />
-                <Progress percent={70} />
-            </Container>
-            <Keyword onFetchKeyword={handleFetchKeyword} />
-            {keyword && (
-                <div>
-                    <p>Keyword: {JSON.stringify(keyword)}</p>
-                    <p>Keyword Text: {keywordText}</p>
+            <img src={file} alt="uploaded-img" />
+            <label htmlFor="file">
+                <div className="btn-upload">
+                    <div className='uploadicon'>
+                        <FaFileUpload />
+                        <span className='uploadBtnText'> 사진 업로드</span>
+                    </div>
                 </div>
+            </label>
+            <input type="file" accept="image/*" id="file" onChange={onChangeImage} />
+            {photoReady && <Keyword onFetchKeyword={handleFetchKeyword} gender={gender} emote={emote} photo={file} />}
+            {maxAnimal && (
+                <ParameterWrapper>
+                    <Container>
+                        <span>공룡상</span>
+                        <Background />
+                        <Dino percent={deerPer * 100} />
+                    </Container>
+                    <Container>
+                        <span>강아지상</span>
+                        <Background />
+                        <Dog percent={dogPer * 100} />
+                    </Container>
+                    <Container>
+                        <span>토끼상</span>
+                        <Background />
+                        <Rabbit percent={rabbitPer * 100} />
+                    </Container>
+                    <Container>
+                        <span>고양이상</span>
+                        <Background />
+                        <Cat percent={catPer * 100} />
+                    </Container>
+                    <Container>
+                        <span>곰상</span>
+                        <Background />
+                        <Bear percent={bearPer * 100} />
+                    </Container>
+                    <div>
+                        <ResultAnimal>{animalText}</ResultAnimal>
+                    </div>
+                </ParameterWrapper>
             )}
-
             <div>{success}</div>
         </TotalWrapper>
     );
 };
 
-const TotalWrapper=styled.div`
+const TotalWrapper = styled.div`
+    width:500px;
+    height:750px;
+    position:relative;
+    border:none;
+    label{
+        display:inline-block;
+        position:absolute;
+        left:20px;
+        width:214px;
+        height:60px;
+    }
     img{
-        margin: 0 auto;
+        position: relative;
+        top:20px;
+        left:50px;
         padding-bottom:10px;
         width:400px;
         height:400px;
-        border:solid black 1px;
+        border:none;
     }
     #file{
         display:none;
     }
     .btn-upload{
-        width:448px;
-        height:100%;
+        position: relative;
+        display:flex;
+        width:200px;
+        height:54px;
         z-index:2;
         background-color:transparent;
-        border:solid 1px black;
+        border:solid 3px black;
         border-radius:34px;
-        margin-top:20px;
+        margin-top:30px;
         margin-left:20px;
+
         &:hover{
             background-color:#c3c3c3;
-        }   
+        }
     }
-    .uploadicon{
-        display:inline-block;
-        font-size:60px;
+    .uploadicon {
+    margin: 0 auto;
+    font-size: 24px;
+    height:100%;
+    text-align: center;
+    line-height: 1.5;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     }
-`
+
+    .uploadBtnText {
+    font-size: 24px;
+    text-align: center;
+    line-height: 1.5;
+    justify-content: center;
+    margin-left: 8px;
+    }
+    `
 
 const Container = styled.div`
   margin: 10px 0;
   height: 10px;
-  width: 100%;
+  width: 400px;
   position: relative;
+  line-height:1.5;
+  span{
+    position:absolute;
+    left:20px;
+    font-size:10px;
+    margin-bottom:1px;
+  }
 `
-
 const BaseBox = styled.div`
   height: 100%;
   position: absolute;
-  left: 0;
+  left: 70px;
   top: 0;
   border-radius: 3px;
   transition: width 10s ease-in-out;
 `
-
 const Background = styled(BaseBox)`
-  background: grey;
+  background: lightgrey;
   width: 100%;
 `
-
-const Progress = styled(BaseBox)`
-  background: blue;
+const Dino = styled(BaseBox)`
+  background: #75cc54;
   width: ${({ percent }) => percent}%;
 `
-
+const Dog = styled(BaseBox)`
+  background: #1BAFEA;
+  width: ${({ percent }) => percent}%;
+`
+const Rabbit = styled(BaseBox)`
+  background: #EBA6BE;
+  width: ${({ percent }) => percent}%;
+`
+const Cat = styled(BaseBox)`
+  background: #FBB03B;
+  width: ${({ percent }) => percent}%;
+`
+const Bear = styled(BaseBox)`
+  background: #C38C66;
+  width: ${({ percent }) => percent}%;
+`
+const ResultAnimal = styled.div`
+    font-size:15px;
+`
+const ParameterWrapper = styled.div`
+    position:absolute;
+    bottom:0;
+    width:500px;
+    height:200px;
+`
 export default Uploader;

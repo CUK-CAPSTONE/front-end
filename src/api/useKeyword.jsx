@@ -1,43 +1,21 @@
 import { useState } from 'react';
 
-function getMaxKey(obj) {
-    let maxKey = null;
-    let maxValue = -Infinity;
-
-    for (const [key, value] of Object.entries(obj)) {
-        if (value > maxValue) {
-            maxValue = value;
-            maxKey = key;
-        }
-    }
-
-    return maxKey;
-}
-
-export function useKeyword() {
+export function useKeyword({ gender, emote }) {
     const [keyword, setKeyword] = useState(null);
     const [keywordText, setKeywordText] = useState(null);
 
-    async function fetchKeywordData() {
+    async function fetchKeywordData(file) {
         try {
-            // 이미지 파일 경로 (public 폴더 기준)
-            const imageUrl = 'img/human.jpg';
-
-            // 이미지 파일 로드
-            const response = await fetch(imageUrl);
-            const blob = await response.blob();
-            const file = new File([blob], 'human.jpg', { type: 'image/jpeg' });
-
             // FormData 객체 생성 및 파일 추가
             const form = new FormData();
             form.append('file', file);
 
             // API 호출
-            const apiResponse = await fetch('https://capstone.hyunn.site/api/image/image_to_text?gender=female&emotion=happy', {
+            const apiResponse = await fetch(`https://capstone.hyunn.site/api/image/image_to_text?gender=${gender}&emotion=${emote}`, {
                 method: 'POST',
                 headers: {
                     'accept': '*/*',
-                    'x-api-key': 'wkflsrhql2024'
+                    'x-api-key': 'wkflsrhql2024',
                 },
                 body: form
             });
@@ -50,7 +28,6 @@ export function useKeyword() {
             const data = await apiResponse.json();
             const responseKeyword = data.data.keyWord;
             const mainKeyText = data.data.title;
-            const mainKey = getMaxKey(responseKeyword);
 
             setKeyword(responseKeyword);
             setKeywordText(mainKeyText);
@@ -61,5 +38,5 @@ export function useKeyword() {
         }
     }
 
-    return { fetchKeywordData };
+    return { fetchKeywordData, keyword, keywordText };
 }
