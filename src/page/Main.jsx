@@ -137,12 +137,13 @@ export default Main;
 const Inner=styled.div`
     width:1200px;
     margin-left:360px;
+    height:1800px;
     overflow:hidden;
 `
 const MainWrapper=styled.div`
     position:relative;
     width:100%;
-    height:100vh;
+    height:900px;
     display:flex;
     background-color:#ececec;
     text-align:center;
@@ -199,7 +200,7 @@ const SubmitBtn=styled.button`
 const ProjectInfoWrapper=styled.div`
   position: relative;
   width:100%;
-  height:100vh;
+  height:900px;
   background-color:#ececec;
 `
 const InfoInner=styled.div`

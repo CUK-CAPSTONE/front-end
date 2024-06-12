@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.scale-container {
+  transform: scale(0.8); /* 80% 크기로 축소 */
+  transform-origin: top left; 
+  width: 125%;
+  height: 1800px;
+  overflow: hidden;
+}

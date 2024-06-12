@@ -13,14 +13,16 @@ function App() {
    <>
    <GlobalStyle/>
    <BrowserRouter>
-   <Routes>
-      <Route path='/' element={<Main/>}/>
-      <Route path='*' element={<NotFound/>}/>
-      <Route path='/three' element={<ThreeDreal/>}/>
-      <Route path='/api' element={<TestApi/>}/>
-      <Route path='/tt' element={<ThreeDreal/>}/>
-      <Route path="/payment" element={<PayCheck/>} />
-   </Routes>
+   <div className="scale-container">
+    <Routes>
+        <Route path='/' element={<Main/>}/>
+        <Route path='*' element={<NotFound/>}/>
+        <Route path='/three' element={<ThreeDreal/>}/>
+        <Route path='/api' element={<TestApi/>}/>
+        <Route path='/tt' element={<ThreeDreal/>}/>
+        <Route path="/payment" element={<PayCheck/>} />
+    </Routes>
+   </div>
    </BrowserRouter>
    </>
   );
