@@ -28,8 +28,7 @@ const Uploader = ({ emote, gender }) => {
             ...prevData,
             maxAnimal: Object.keys(keyword).reduce((a, b) => (keyword[a] > keyword[b] ? a : b)),
             emote,
-            gender,
-            photo: file,
+            gender
         }));
     };
 
@@ -88,7 +87,7 @@ const Uploader = ({ emote, gender }) => {
 
     return (
         <TotalWrapper>
-            <img src={file} alt="uploaded-img" />
+            <img src={file} />
             <label htmlFor="file">
                 <div className="btn-upload">
                     <div className='uploadicon'>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Result</title>
+</head>
+<body>
+    <script>
+        // 결제 완료 정보를 부모 창으로 전송
+        const paymentData = {
+            code: "00",
+            msg: "success",
+            data: {
+                productName: "초코파이",
+                amount: { total: 1100 },
+                address: "서울 동작구 여의대방로 22 (신대방동, 우성아파트)",
+                shippingStatus: "결제 완료",
+                imageId: 9,
+                userNickname: "이준수",
+                userEmail: "land8746@naver.com",
+                approvedAt: "2024-06-08T12:59:42.014365725",
+                phoneNumber: "01089788746",
+                message: "success",
+                paymentId: 56
+            }
+        };
+
+        window.opener.postMessage(JSON.stringify(paymentData), "*");
+        window.close();
+    </script>
+</body>
+</html>

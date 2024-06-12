@@ -136,7 +136,7 @@ export default Main;
 
 const Inner=styled.div`
     width:1200px;
-    margin-left:300px;
+    margin-left:360px;
     overflow:hidden;
 `
 const MainWrapper=styled.div`

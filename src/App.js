@@ -6,6 +6,7 @@ import NotFound from './page/NotFound';
 import ThreeD from './page/ThreeD';
 import TestApi from './components/TestApi';
 import ThreeDreal from './page/ThreeDreal';
+import PayCheck from './page/PayCheck';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path='/three' element={<ThreeDreal/>}/>
       <Route path='/api' element={<TestApi/>}/>
       <Route path='/tt' element={<ThreeDreal/>}/>
+      <Route path="/payment" element={<PayCheck/>} />
    </Routes>
    </BrowserRouter>
    </>

@@ -5,7 +5,7 @@ export function useObjBringer() {
     const { data } = useDataContext();
     const [obj, setObj] = useState(null);
     const [photo, setPhoto] = useState(null);
-    const [result,setResult]=useState(null);
+    const [loading, setLoading] = useState(true);
 
     function base64ToFile(base64, filename) {
         const arr = base64.split(',');
@@ -30,15 +30,15 @@ export function useObjBringer() {
         const fetchObj = async () => {
             console.log("fetchObj 함수 실행됨");
             try {
-                console.log("3d 코드 가져오는중..");
+                console.log("3d 모델링 가져오는 중..");
                 const response = await fetch(
-                    `https://capstone.hyunn.site/api/image/text_to_3D/cat`,
+                    `https://capstone.hyunn.site/api/image/text_to_3D/cat`, // 프록시 경로를 사용합니다.
                     {
                         method: 'POST',
                         headers: {
                             'accept': '*/*',
                             'x-api-key': 'wkflsrhql2024',
-                            'Content-type' : 'application/json'
+                            'Content-type': 'application/json'
                         },
                         body: JSON.stringify({
                             image: "img/human.jpg",
@@ -47,43 +47,42 @@ export function useObjBringer() {
                         })
                     }
                 );
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const responseData = await response.json();
-                setObj(responseData.data.previewResult);  // assuming the actual object URL or data is in responseData
+                const objUrl = responseData.data.threeDimensionUrl.obj; // assuming this is the returned URL key
+                console.log("Received obj URL:", objUrl);
+
+                // 프록시를 통해 obj 파일을 다운로드
+                const proxyObjUrl = `/proxy${new URL(objUrl).pathname}${new URL(objUrl).search}`;
+                console.log("Proxy obj URL:", proxyObjUrl);
+
+                const objResponse = await fetch(proxyObjUrl, {
+                    headers: {
+                        'accept': '*/*'
+                    }
+                });
+
+                if (!objResponse.ok) {
+                    throw new Error(`HTTP error! status: ${objResponse.status}`);
+                }
+
+                const objBlob = await objResponse.blob();
+                const objFile = new File([objBlob], "model.obj", { type: objBlob.type });
+                setObj(objFile);
+                setLoading(false); // 로딩 완료
+                console.log(objFile);
             } catch (error) {
                 console.log(error);
+                setLoading(false); // 에러 발생 시에도 로딩 상태를 false로 설정
             }
         };
 
         fetchObj();
     }, [photo]);
 
-    useEffect(()=>{
-        const objResult = async () => {
-            console.log("objResult 함수 실행됨");
-            console.log(obj);
-            try {
-                console.log("최종 obj 가져오는 중...");
-                var request={method: 'GET',
-                    headers: {
-                        'accept': '*/*',
-                        "Access-Control-Allow-Origin": "*",
-                        'x-api-key': 'wkflsrhql2024',
-                    }
-                }
-                const response = await fetch(`https://capstone.hyunn.site/api/image/result/${obj}`,request);
-                console.log(response);
-                const responseData = await response.json();
-                console.log(responseData);
-                setResult(response.threeDimension);  // assuming the actual object URL or data is in responseData
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        if(obj){
-            objResult();
-        }
-    },[obj]);
-
-    return result;
+    return { obj, loading };
 }

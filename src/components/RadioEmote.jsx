@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 //icon
@@ -10,6 +10,10 @@ import { FaRegSurprise } from "react-icons/fa";
 
 function RadioEmote({ setEmote }) {
     const [x,setX]=useState("angry");
+
+    useEffect(() => {
+      setEmote("angry");
+  }, []);
 
     const handleClickRadioBtn2 = (e)=>{
         setX(e.target.value);

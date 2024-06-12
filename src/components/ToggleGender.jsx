@@ -5,16 +5,22 @@ function ToggleGender({ setGender }) {
     const [isActive, setIsActive] = useState(true);
 
     useEffect(() => {
+        console.log("초기값 male");
         setGender("male");
-    }, [setGender]);
+    }, []);
+
+    useEffect(() => {
+        if (isActive) {
+            console.log("male로 변경");
+            setGender("male");
+        } else {
+            console.log("female로 변경");
+            setGender("female");
+        }
+    }, [isActive, setGender]);
 
     const handleChange = () => {
         setIsActive(!isActive);
-        if (isActive) {
-            setGender("male");
-        } else {
-            setGender("female");
-        }
     };
 
     return (

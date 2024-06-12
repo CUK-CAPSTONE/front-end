@@ -17,3 +17,32 @@
     //         setError('업로드 실패 :(');
     //     }finally{setIsLoading(false)}
     // }
+
+
+    // useEffect(()=>{
+    //     const objResult = async () => {
+    //         console.log("objResult 함수 실행됨");
+    //         console.log(obj);
+    //         try {
+    //             console.log("최종 obj 가져오는 중...");
+    //             var request={method: 'GET',
+    //                 headers: {
+    //                     'accept': '*/*',
+    //                     "Access-Control-Allow-Origin": "*",
+    //                     'x-api-key': 'wkflsrhql2024',
+    //                 }
+    //             }
+    //             const response = await fetch(`https://capstone.hyunn.site/api/image/result/${obj}`,request);
+    //             console.log(response);
+    //             const responseData = await response.json();
+    //             console.log(responseData);
+    //             setResult(response.threeDimension);  // assuming the actual object URL or data is in responseData
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+
+    //     if(obj){
+    //         objResult();
+    //     }
+    // },[obj]);

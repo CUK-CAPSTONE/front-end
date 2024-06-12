@@ -1,11 +1,13 @@
 import { Canvas } from '@react-three/fiber';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FaRedo, FaShareAlt, FaPrint, FaHome } from "react-icons/fa";
 import Modal from '../components/Modal';
 import ObjReal from '../components/ObjReal';
+import GlbReal from '../components/GlbReal';
+import { useKakao } from '../api/kakao';
 
 export default function ThreeDreal() {
     const navigate = useNavigate();
@@ -13,7 +15,6 @@ export default function ThreeDreal() {
         navigate("/");
     };
 
-    const [obj, setObj] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openModal = () => {
@@ -24,6 +25,18 @@ export default function ThreeDreal() {
         setIsModalOpen(false);
     };
 
+    const { data, loading, error } = useKakao();
+
+    const openKakao = () => {
+        if (loading) {
+            console.log("로딩 중...");
+        } else if (error) {
+            console.error("에러 발생:", error);
+        } else {
+            console.log("Kakao API 데이터:", data);
+            window.open(data, "_blank"); // API 데이터를 기반으로 원하는 작업 수행
+        }
+    };
     return (
         <>
             <TotalWrapper>
@@ -33,7 +46,8 @@ export default function ThreeDreal() {
                         {/* <axesHelper args={[200, 200, 200]} /> */}
                         <ambientLight intensity={1} />
                         <group rotation-y={-Math.PI / 2}>
-                            <ObjReal/>
+                            {/* <ObjReal/> */}
+                            <GlbReal />
                         </group>
                     </Canvas>
                 </ThreeDWrapper>
@@ -42,7 +56,7 @@ export default function ThreeDreal() {
                     <button className='share' onClick={openModal}><FaShareAlt /> 공유하기</button>
                 </div>
                 <div className='btn-secondRow'>
-                    <button className='print'><FaPrint /> 출력하기</button>
+                    <button className='print' onClick={openKakao}><FaPrint /> 출력하기</button>
                 </div>
             </TotalWrapper>
             <Modal show={isModalOpen} onClose={closeModal} />
@@ -52,7 +66,7 @@ export default function ThreeDreal() {
 
 const TotalWrapper = styled.div`
     width:1200px;
-    margin-left:300px;
+    margin-left:360px;
     overflow:hidden;
     margin-top:10px;
     .goHome{

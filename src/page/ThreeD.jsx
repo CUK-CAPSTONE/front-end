@@ -53,7 +53,7 @@ export default function ThreeD() {
 
 const TotalWrapper = styled.div`
     width:1200px;
-    margin-left:300px;
+    margin-left:360px;
     overflow:hidden;
     .goHome{
       background-color:transparent;

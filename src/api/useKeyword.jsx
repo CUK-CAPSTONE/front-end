@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useDataContext } from '../context/FourContext';
 
 export function useKeyword({ gender, emote }) {
     const [keyword, setKeyword] = useState(null);
     const [keywordText, setKeywordText] = useState(null);
+    const { data, setData } = useDataContext();
 
     async function fetchKeywordData(file) {
         try {
@@ -25,9 +27,14 @@ export function useKeyword({ gender, emote }) {
                 throw new Error(`HTTP error! Status: ${apiResponse.status}`);
             }
 
-            const data = await apiResponse.json();
-            const responseKeyword = data.data.keyWord;
-            const mainKeyText = data.data.title;
+            const resData = await apiResponse.json();
+            console.log("키워드 api로부터 받아온 image",resData.data.image);
+            setData(prevData => ({
+                ...prevData,
+                photo: resData.data.image,
+            }));
+            const responseKeyword = resData.data.keyWord;
+            const mainKeyText = resData.data.title;
 
             setKeyword(responseKeyword);
             setKeywordText(mainKeyText);
