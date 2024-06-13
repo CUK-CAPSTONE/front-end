@@ -1,5 +1,5 @@
   [[redirects]]
-from = "/meshyapi/*"
+from = "/proxy/*"
 to = "https://assets.meshy.ai/:splat"
 status = 200
 force = true
