@@ -34,7 +34,7 @@ const PayCheck = () => {
                         Phone Number:
                         <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
                     </label>
-                    <button onClick={() => setTriggerFetch(true)}>Submit</button>
+                    <button onClick={() => setTriggerFetch(true)}>조회</button>
                 </InputWrapper>
                 {receive && (
                     <Inner>
@@ -42,14 +42,22 @@ const PayCheck = () => {
                             {receive.map((item, index) => (
                                 <TextWrapper key={index}>
                                     <p className='payMenu'>결제 내역 {index + 1}</p>
-                                    <p>paymentId : {item.paymentId ? item.paymentId : "없음"}</p>
-                                    <p>productName : {item.productName ? item.productName : "없음"}</p>
-                                    <p>price : {item.price ? item.price : "없음"}</p>
-                                    <p>address : {item.address ? item.address : "없음"}</p>
+                                    <p>결제 ID : {item.paymentId ? item.paymentId : "없음"}</p>
+                                    <p>제품명 : {item.productName ? item.productName : "없음"}</p>
+                                    <p>가격 : {item.price ? item.price : "없음"}</p>
+                                    <p>주소 : {item.address ? item.address : "없음"}</p>
                                     <p>tid : {item.paymentId ? item.paymentId : "없음"}</p>
-                                    <p>imageId : {item.imageId ? item.imageId : "없음"}</p>
-                                    <p>shipping : {item.shipping ? item.shipping : "없음"}</p>
-                                    <p>keyword : {item.keyWord ? item.keyWord : "없음"}</p>
+                                    <p>이미지 ID : {item.imageId ? item.imageId : "없음"}</p>
+                                    <p>배송 상태 : {item.shipping ? item.shipping : "없음"}</p>
+                                    <p>키워드 : {item.keyWord ? item.keyWord : "없음"}</p>
+                                    <ButtonWrapper>
+                                        <a href={item.image} target="_blank" rel="noopener noreferrer">
+                                            <button>이미지 다운로드</button>
+                                        </a>
+                                        <a href={item.threeDimension} target="_blank" rel="noopener noreferrer">
+                                            <button>모델링 다운로드</button>
+                                        </a>
+                                    </ButtonWrapper>
                                 </TextWrapper>
                             ))}
                         </PaylistWrapper>
@@ -111,6 +119,26 @@ const TextWrapper = styled.div`
         text-align: center;
         margin-bottom: 20px; /* 마진 조정 */
         font-size: 24px; /* 폰트 크기 조정 */
+    }
+`;
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #6EE046;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #58b338;
+        }
     }
 `;
 
