@@ -6,9 +6,8 @@ export function useGlbBringer() {
     const [glb, setGlb] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [imageId,setImageId]=useState(null);
-
-    const isPhotoSet = useRef(false); // photo가 설정되었는지 추적
+    const [imageId, setImageId] = useState(null);
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 
     function base64ToFile(base64, filename) {
         const arr = base64.split(',');
@@ -21,7 +20,6 @@ export function useGlbBringer() {
         }
         return new File([u8arr], filename, { type: mime });
     }
-
 
     useEffect(() => {
         const fetchGlb = async () => {
@@ -54,12 +52,15 @@ export function useGlbBringer() {
                 const glbUrl = responseData.data.threeDimensionUrl.glb;
                 const glbImageId = responseData.data.imageId;
                 setImageId(glbImageId);
-                console.log("glbImageId :",imageId);
+                console.log("glbImageId :", imageId);
 
-                const proxyGlbUrl = `/proxy${new URL(glbUrl).pathname}${new URL(glbUrl).search}`;
+                // 상대 경로 생성
+                const urlObj = new URL(glbUrl);
+                const relativePath = urlObj.pathname + urlObj.search;
+                const proxyGlbUrl = `${PROXY}${relativePath}`;
                 console.log("Proxy glb URL:", proxyGlbUrl);
 
-                const glbResponse = await fetch(glbUrl, {
+                const glbResponse = await fetch(proxyGlbUrl, {
                     headers: {
                         'accept': '*/*'
                     }
