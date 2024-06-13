@@ -8,8 +8,11 @@ const Uploader = ({ emote, gender }) => {
     const [file, setFile] = useState(null); //사진 (키워드 api 요소)
     const [photoReady, setPhotoReady] = useState(false);
     const [success, setSuccess] = useState(null);
+    //키워드, 키워드 텍스트
     const [animalObj, setAnimalObj] = useState(null);
     const [animalText, setAnimalText] = useState(null);
+    const [example,setExample]=useState(null);
+    //퍼센테이지
     const [deerPer, setDeerPer] = useState(0);
     const [dogPer, setDogPer] = useState(0);
     const [catPer, setCatPer] = useState(0);
@@ -19,9 +22,11 @@ const Uploader = ({ emote, gender }) => {
 
     const { data, setData } = useDataContext();
 
-    const handleFetchKeyword = ({ keyword, keywordText }) => {
+    const handleFetchKeyword = ({ keyword, keywordText, keyTalent }) => {
         setAnimalObj(keyword);
         setAnimalText(keywordText);
+        setExample(keyTalent);
+        console.log("연예인 :",example);
         updateStateBasedOnMaxValue(keyword);
 
         setData(prevData => ({
@@ -101,9 +106,9 @@ const Uploader = ({ emote, gender }) => {
             {maxAnimal && (
                 <ParameterWrapper>
                     <Container>
-                        <span>공룡상</span>
+                        <span>사슴상</span>
                         <Background />
-                        <Dino percent={deerPer * 100} />
+                        <Deer percent={deerPer * 100} />
                     </Container>
                     <Container>
                         <span>강아지상</span>
@@ -127,6 +132,7 @@ const Uploader = ({ emote, gender }) => {
                     </Container>
                     <div>
                         <ResultAnimal>{animalText}</ResultAnimal>
+                        <ResultExample>닮은 연예인 : {example}</ResultExample>
                     </div>
                 </ParameterWrapper>
             )}
@@ -221,7 +227,7 @@ const Background = styled(BaseBox)`
   background: lightgrey;
   width: 100%;
 `
-const Dino = styled(BaseBox)`
+const Deer = styled(BaseBox)`
   background: #75cc54;
   width: ${({ percent }) => percent}%;
 `
@@ -242,6 +248,10 @@ const Bear = styled(BaseBox)`
   width: ${({ percent }) => percent}%;
 `
 const ResultAnimal = styled.div`
+    font-size:15px;
+`
+const ResultExample=styled.div`
+    margin-top:5px;
     font-size:15px;
 `
 const ParameterWrapper = styled.div`

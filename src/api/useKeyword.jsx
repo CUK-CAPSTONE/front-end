@@ -5,6 +5,7 @@ export function useKeyword({ gender, emote }) {
     const [keyword, setKeyword] = useState(null);
     const [keywordText, setKeywordText] = useState(null);
     const { data, setData } = useDataContext();
+    const [keyTalent,setKeyTalent]=useState(null);
 
     async function fetchKeywordData(file) {
         try {
@@ -28,22 +29,26 @@ export function useKeyword({ gender, emote }) {
             }
 
             const resData = await apiResponse.json();
-            console.log("키워드 api로부터 받아온 image",resData.data.image);
+            console.log("키워드 api로부터 받아온 data",resData);
             setData(prevData => ({
                 ...prevData,
                 photo: resData.data.image,
             }));
             const responseKeyword = resData.data.keyWord;
             const mainKeyText = resData.data.title;
+            const talent = resData.data.example;
 
             setKeyword(responseKeyword);
             setKeywordText(mainKeyText);
+            setKeyTalent(talent);
+            console.log(talent);
+            console.log(keyTalent);
 
-            return { keyword: responseKeyword, keywordText: mainKeyText };
+            return { keyword: responseKeyword, keywordText: mainKeyText, keyTalent: talent };
         } catch (error) {
             console.error('Error:', error);
         }
     }
 
-    return { fetchKeywordData, keyword, keywordText };
+    return { fetchKeywordData, keyword, keywordText, keyTalent };
 }

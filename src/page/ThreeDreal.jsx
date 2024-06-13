@@ -26,17 +26,18 @@ export default function ThreeDreal() {
     };
 
     const { glb: glbData, loading: glbLoading, imageId: glbImageId } = useGlbBringer();
-    const { data: kakaoData, loading: kakaoLoading, error: kakaoError } = useKakao(glbImageId);
+    // const { data: kakaoData, loading: kakaoLoading, error: kakaoError } = useKakao(glbImageId);
 
     const openKakao = () => {
-        if (kakaoLoading) {
-            console.log("로딩 중...");
-        } else if (kakaoError) {
-            console.error("에러 발생:", kakaoError);
-        } else {
-            console.log("Kakao API 데이터:", kakaoData);
-            window.open(kakaoData, "_blank");
-        }
+        // if (kakaoLoading) {
+        //     console.log("로딩 중...");
+        // } else if (kakaoError) {
+        //     console.error("에러 발생:", kakaoError);
+        // } else {
+        //     console.log("Kakao API 데이터:", kakaoData);
+        //     
+        // }
+        window.open("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=681c7dd24caab6868c553a07b27422ed&redirect_uri=https://capstone.hyunn.site/api/login/oauth2/code/kakao", "_blank");
     };
 
     return (
@@ -60,9 +61,10 @@ export default function ThreeDreal() {
                     <button className='share' onClick={openModal}><FaShareAlt /> 공유하기</button>
                 </div>
                 <div className='btn-secondRow'>
-                    {!glbLoading && !kakaoLoading && (
+                    {!glbLoading  && (
                         <button className='print' onClick={openKakao}><FaPrint /> 출력하기</button>
                     )}
+                    
                 </div>
             </TotalWrapper>
             <Modal show={isModalOpen} onClose={closeModal} />
