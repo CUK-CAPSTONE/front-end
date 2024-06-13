@@ -33,7 +33,7 @@ const ModelViewer = ({ url }) => {
     const { scene } = useGLTF(url);
 
     useEffect(() => {
-        scene.scale.set(5, 5, 5); // 모든 축에 대해 2배로 확대
+        scene.scale.set(3, 3, 3); // 모든 축에 대해 2배로 확대
         scene.position.set(0, -1, -2);
     }, [scene]);
 
