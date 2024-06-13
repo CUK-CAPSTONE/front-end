@@ -15,7 +15,8 @@ const GlbReal = ({ glbData, loading }) => {
     }, [glbData, loading]);
 
     if (!glbData) {
-        return <div>3D 모델을 받아오지 못했습니다.</div>;
+        console.log("3D 모델 받아오기 실패");
+        return 
     }
 
     return (

@@ -59,7 +59,7 @@ export function useGlbBringer() {
                 const proxyGlbUrl = `/proxy${new URL(glbUrl).pathname}${new URL(glbUrl).search}`;
                 console.log("Proxy glb URL:", proxyGlbUrl);
 
-                const glbResponse = await fetch(proxyGlbUrl, {
+                const glbResponse = await fetch(glbUrl, {
                     headers: {
                         'accept': '*/*'
                     }
