@@ -6,6 +6,7 @@ export function useGlbBringer() {
     const [glb, setGlb] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [imageId,setImageId]=useState(null);
 
     const isPhotoSet = useRef(false); // photo가 설정되었는지 추적
 
@@ -21,13 +22,6 @@ export function useGlbBringer() {
         return new File([u8arr], filename, { type: mime });
     }
 
-    // useEffect(() => {
-    //     if (data.photo && !isPhotoSet.current) {
-    //         const file = base64ToFile(data.photo, "photo.jpg");
-    //         setPhoto(file);
-    //         isPhotoSet.current = true;
-    //     }
-    // }, [data.photo]);
 
     useEffect(() => {
         const fetchGlb = async () => {
@@ -58,7 +52,9 @@ export function useGlbBringer() {
 
                 const responseData = await response.json();
                 const glbUrl = responseData.data.threeDimensionUrl.glb;
-                console.log("Received glb URL:", glbUrl);
+                const glbImageId = responseData.data.imageId;
+                setImageId(glbImageId);
+                console.log("glbImageId :",imageId);
 
                 const proxyGlbUrl = `/proxy${new URL(glbUrl).pathname}${new URL(glbUrl).search}`;
                 console.log("Proxy glb URL:", proxyGlbUrl);
@@ -95,5 +91,5 @@ export function useGlbBringer() {
         }
     }, [glb]);
 
-    return { glb, loading };
+    return { glb, loading, imageId };
 }

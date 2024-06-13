@@ -25,17 +25,17 @@ export default function ThreeDreal() {
         setIsModalOpen(false);
     };
 
-    const { data, loading: kakaoLoading, error } = useKakao();
-    const { glb: glbData, loading: glbLoading } = useGlbBringer();
+    const { glb: glbData, loading: glbLoading, imageId: glbImageId } = useGlbBringer();
+    const { data: kakaoData, loading: kakaoLoading, error: kakaoError } = useKakao(glbImageId);
 
     const openKakao = () => {
         if (kakaoLoading) {
             console.log("로딩 중...");
-        } else if (error) {
-            console.error("에러 발생:", error);
+        } else if (kakaoError) {
+            console.error("에러 발생:", kakaoError);
         } else {
-            console.log("Kakao API 데이터:", data);
-            window.open(data, "_blank"); // API 데이터를 기반으로 원하는 작업 수행
+            console.log("Kakao API 데이터:", kakaoData);
+            window.open(kakaoData, "_blank");
         }
     };
 
@@ -60,7 +60,9 @@ export default function ThreeDreal() {
                     <button className='share' onClick={openModal}><FaShareAlt /> 공유하기</button>
                 </div>
                 <div className='btn-secondRow'>
-                    <button className='print' onClick={openKakao}><FaPrint /> 출력하기</button>
+                    {!glbLoading && !kakaoLoading && (
+                        <button className='print' onClick={openKakao}><FaPrint /> 출력하기</button>
+                    )}
                 </div>
             </TotalWrapper>
             <Modal show={isModalOpen} onClose={closeModal} />
