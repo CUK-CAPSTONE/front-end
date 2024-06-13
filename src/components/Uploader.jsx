@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import Keyword from '../api/Keyword';
 import { useDataContext } from '../context/FourContext';
 
-const Uploader = ({ emote, gender }) => {
+const Uploader = ({ emote, gender, setMaxAnimalParent }) => {
     const [file, setFile] = useState(null); //사진 (키워드 api 요소)
     const [photoReady, setPhotoReady] = useState(false);
     const [success, setSuccess] = useState(null);
     //키워드, 키워드 텍스트
     const [animalObj, setAnimalObj] = useState(null);
     const [animalText, setAnimalText] = useState(null);
-    const [example,setExample]=useState(null);
+    const [example, setExample] = useState(null);
     //퍼센테이지
     const [deerPer, setDeerPer] = useState(0);
     const [dogPer, setDogPer] = useState(0);
@@ -26,7 +26,7 @@ const Uploader = ({ emote, gender }) => {
         setAnimalObj(keyword);
         setAnimalText(keywordText);
         setExample(keyTalent);
-        console.log("연예인 :",example);
+        console.log("연예인 :", example);
         updateStateBasedOnMaxValue(keyword);
 
         setData(prevData => ({
@@ -68,6 +68,7 @@ const Uploader = ({ emote, gender }) => {
 
         if (maxAnimal) {
             setMaxAnimal(maxAnimal);
+            setMaxAnimalParent(maxAnimal); // 부모 컴포넌트에 상태 전달
         }
     };
 
@@ -132,7 +133,7 @@ const Uploader = ({ emote, gender }) => {
                     </Container>
                     <div>
                         <ResultAnimal>{animalText}</ResultAnimal>
-                        <ResultExample>닮은 연예인 : {example}</ResultExample>
+                        <ResultExample>연예인 : {example}</ResultExample>
                     </div>
                 </ParameterWrapper>
             )}
@@ -142,79 +143,80 @@ const Uploader = ({ emote, gender }) => {
 };
 
 const TotalWrapper = styled.div`
-    width:500px;
-    height:750px;
-    position:relative;
-    border:none;
-    label{
-        display:inline-block;
-        position:absolute;
-        left:20px;
-        width:214px;
-        height:60px;
+    width: 500px;
+    height: 750px;
+    position: relative;
+    border: none;
+    label {
+        display: inline-block;
+        position: absolute;
+        left: 20px;
+        width: 214px;
+        height: 60px;
     }
-    img{
+    img {
         position: relative;
-        top:20px;
-        left:50px;
-        padding-bottom:10px;
-        width:400px;
-        height:400px;
-        border:none;
+        top: 20px;
+        left: 50px;
+        padding-bottom: 10px;
+        width: 400px;
+        height: 400px;
+        border: none;
     }
-    #file{
-        display:none;
+    #file {
+        display: none;
     }
-    .btn-upload{
+    .btn-upload {
         position: relative;
-        display:flex;
-        width:200px;
-        height:54px;
-        z-index:2;
-        background-color:transparent;
-        border:solid 3px black;
-        border-radius:34px;
-        margin-top:30px;
-        margin-left:20px;
+        display: flex;
+        width: 200px;
+        height: 54px;
+        z-index: 2;
+        background-color: transparent;
+        border: solid 3px black;
+        border-radius: 34px;
+        margin-top: 30px;
+        margin-left: 20px;
 
-        &:hover{
-            background-color:#c3c3c3;
+        &:hover {
+            background-color: #c3c3c3;
         }
     }
     .uploadicon {
-    margin: 0 auto;
-    font-size: 24px;
-    height:100%;
-    text-align: center;
-    line-height: 1.5;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        margin: 0 auto;
+        font-size: 24px;
+        height: 100%;
+        text-align: center;
+        line-height: 1.5;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .uploadBtnText {
-    font-size: 24px;
-    text-align: center;
-    line-height: 1.5;
-    justify-content: center;
-    margin-left: 8px;
+        font-size: 24px;
+        text-align: center;
+        line-height: 1.5;
+        justify-content: center;
+        margin-left: 8px;
     }
-    `
+`;
 
 const Container = styled.div`
   margin: 10px 0;
   height: 10px;
   width: 400px;
   position: relative;
-  line-height:1.5;
-  span{
-    position:absolute;
-    left:20px;
-    font-size:10px;
-    margin-bottom:1px;
+  line-height: 1.5;
+  span {
+    position: absolute;
+    left: 20px;
+    font-size: 10px;
+    margin-bottom: 1px;
   }
-`
+`;
+
 const BaseBox = styled.div`
   height: 100%;
   position: absolute;
@@ -222,42 +224,52 @@ const BaseBox = styled.div`
   top: 0;
   border-radius: 3px;
   transition: width 10s ease-in-out;
-`
+`;
+
 const Background = styled(BaseBox)`
   background: lightgrey;
   width: 100%;
-`
+`;
+
 const Deer = styled(BaseBox)`
   background: #75cc54;
   width: ${({ percent }) => percent}%;
-`
+`;
+
 const Dog = styled(BaseBox)`
   background: #1BAFEA;
   width: ${({ percent }) => percent}%;
-`
+`;
+
 const Rabbit = styled(BaseBox)`
   background: #EBA6BE;
   width: ${({ percent }) => percent}%;
-`
+`;
+
 const Cat = styled(BaseBox)`
   background: #FBB03B;
   width: ${({ percent }) => percent}%;
-`
+`;
+
 const Bear = styled(BaseBox)`
   background: #C38C66;
   width: ${({ percent }) => percent}%;
-`
+`;
+
 const ResultAnimal = styled.div`
-    font-size:15px;
-`
-const ResultExample=styled.div`
-    margin-top:5px;
-    font-size:15px;
-`
+    font-size: 15px;
+`;
+
+const ResultExample = styled.div`
+    margin-top: 5px;
+    font-size: 15px;
+`;
+
 const ParameterWrapper = styled.div`
-    position:absolute;
-    bottom:0;
-    width:500px;
-    height:200px;
-`
+    position: absolute;
+    bottom: 0;
+    width: 500px;
+    height: 200px;
+`;
+
 export default Uploader;
