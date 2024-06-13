@@ -43,17 +43,17 @@ export default function ThreeDreal() {
     return (
         <>
             <TotalWrapper>
-                <ThreeDWrapper>
+            <ThreeDWrapper>
                     {glbLoading ? (
                         <img className='loading' src='img/loading.gif' alt="Loading" />
                     ) : (
-                        <Canvas camera={{ position: [20, -10, -8] }}>
+                        <StyledCanvas>
                             <OrbitControls />
                             <ambientLight intensity={1} />
                             <group rotation-y={-Math.PI / 2}>
                                 <GlbReal glbData={glbData} loading={glbLoading} />
                             </group>
-                        </Canvas>
+                        </StyledCanvas>
                     )}
                 </ThreeDWrapper>
                 <div className='btn-firstRow'>
@@ -61,10 +61,9 @@ export default function ThreeDreal() {
                     <button className='share' onClick={openModal}><FaShareAlt /> 공유하기</button>
                 </div>
                 <div className='btn-secondRow'>
-                    {!glbLoading  && (
+                    {!glbLoading && (
                         <button className='print' onClick={openKakao}><FaPrint /> 출력하기</button>
                     )}
-                    
                 </div>
             </TotalWrapper>
             <Modal show={isModalOpen} onClose={closeModal} />
@@ -139,3 +138,12 @@ const ThreeDWrapper = styled.div`
     height:300px;
   }
 `
+
+const StyledCanvas = styled(Canvas)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 58px;
+  left: 100px;
+`;
+
