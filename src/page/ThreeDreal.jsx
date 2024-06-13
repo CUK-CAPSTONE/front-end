@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FaRedo, FaShareAlt, FaPrint, FaHome } from "react-icons/fa";
 import Modal from '../components/Modal';
-import ObjReal from '../components/ObjReal';
 import GlbReal from '../components/GlbReal';
 import { useKakao } from '../api/kakao';
+import { useGlbBringer } from '../api/glbBringer';
 
 export default function ThreeDreal() {
     const navigate = useNavigate();
@@ -25,10 +25,11 @@ export default function ThreeDreal() {
         setIsModalOpen(false);
     };
 
-    const { data, loading, error } = useKakao();
+    const { data, loading: kakaoLoading, error } = useKakao();
+    const { glb: glbData, loading: glbLoading } = useGlbBringer();
 
     const openKakao = () => {
-        if (loading) {
+        if (kakaoLoading) {
             console.log("로딩 중...");
         } else if (error) {
             console.error("에러 발생:", error);
@@ -37,19 +38,22 @@ export default function ThreeDreal() {
             window.open(data, "_blank"); // API 데이터를 기반으로 원하는 작업 수행
         }
     };
+
     return (
         <>
             <TotalWrapper>
                 <ThreeDWrapper>
-                    <Canvas camera={{ position: [20, -10, -8] }}>
-                        <OrbitControls />
-                        {/* <axesHelper args={[200, 200, 200]} /> */}
-                        <ambientLight intensity={1} />
-                        <group rotation-y={-Math.PI / 2}>
-                            {/* <ObjReal/> */}
-                            <GlbReal />
-                        </group>
-                    </Canvas>
+                    {glbLoading ? (
+                        <img className='loading' src='img/loading.gif' alt="Loading" />
+                    ) : (
+                        <Canvas camera={{ position: [20, -10, -8] }}>
+                            <OrbitControls />
+                            <ambientLight intensity={1} />
+                            <group rotation-y={-Math.PI / 2}>
+                                <GlbReal glbData={glbData} loading={glbLoading} />
+                            </group>
+                        </Canvas>
+                    )}
                 </ThreeDWrapper>
                 <div className='btn-firstRow'>
                     <button className='redo' onClick={goToHome}><FaRedo /> 다시하기</button>
@@ -123,4 +127,11 @@ const ThreeDWrapper = styled.div`
   background-color:#d9d9d9;
   border-radius:34px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .loading{
+    width:300px;
+    height:300px;
+  }
 `
