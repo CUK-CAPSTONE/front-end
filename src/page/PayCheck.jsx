@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { usePaylist } from '../api/paylist';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Head from '../components/Head';
 
 const PayCheck = () => {
@@ -23,6 +23,7 @@ const PayCheck = () => {
 
     return (
         <>
+            <GlobalStyle />
             <Head />
             <Container>
                 <InputWrapper>
@@ -70,6 +71,12 @@ const PayCheck = () => {
 
 export default PayCheck;
 
+const GlobalStyle = createGlobalStyle`
+    body, html {
+        overflow: hidden; /* 페이지 스크롤 비활성화 */
+    }
+`;
+
 const Container = styled.div`
     width:1200px;
     margin-left:360px;
@@ -93,32 +100,35 @@ const Inner = styled.div`
 `;
 
 const PaylistWrapper = styled.div`
-    position: relative;
     width: 100%;
+    max-height: 70vh; /* 최대 높이를 설정하여 스크롤 가능하도록 설정 */
+    overflow-y: auto; /* 스크롤 가능하도록 설정 */
     display: flex;
     flex-direction: column; /* 여러 개의 TextWrapper를 수직으로 배치 */
-    justify-content: center;
     align-items: center;
     background-color: #ececec;
 `;
 
 const TextWrapper = styled.div`
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     background-color: transparent;
     z-index: 2;
-    padding-top: 20px;
+    padding: 20px;
     margin-bottom: 20px; /* 각 결제 내역 간의 간격을 위해 추가 */
+    border: 1px solid #ccc;
+    border-radius: 8px;
 
     .payMenu {
-        margin-top: 20px;
+        margin-top: 0;
         font-size: 28px; /* 폰트 크기 조정 */
         font-weight: bold;
     }
 
     p {
-        text-align: center;
-        margin-bottom: 20px; /* 마진 조정 */
-        font-size: 24px; /* 폰트 크기 조정 */
+        text-align: left;
+        margin-bottom: 10px; /* 마진 조정 */
+        font-size: 18px; /* 폰트 크기 조정 */
     }
 `;
 
@@ -143,7 +153,8 @@ const ButtonWrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     margin: 0 auto; /* Inner와 같은 배경색을 적용하기 위해 변경 */
     padding-bottom: 20px; /* 추가된 패딩 */
     display: flex;
