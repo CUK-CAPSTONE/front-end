@@ -32,7 +32,7 @@ const PayCheck = () => {
                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </label>
                     <label>
-                        Phone Number:
+                        전화번호:
                         <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
                     </label>
                     <button onClick={() => setTriggerFetch(true)}>조회</button>
