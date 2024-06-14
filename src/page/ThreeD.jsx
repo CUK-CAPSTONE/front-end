@@ -1,11 +1,14 @@
 import { Canvas } from '@react-three/fiber';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FaRedo, FaShareAlt, FaPrint, FaHome } from "react-icons/fa";
-import Obj from '../components/Obj';
 import Modal from '../components/Modal';
+import GlbReal from '../components/GlbReal';
+import Obj from '../components/Obj';
+import { useKakao } from '../api/kakao';
+import { useGlbBringer } from '../api/glbBringer';
 
 export default function ThreeD() {
     const navigate = useNavigate();
@@ -13,8 +16,16 @@ export default function ThreeD() {
         navigate("/");
     };
 
-    const [obj, setObj] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [glbLoading, setGlbLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setGlbLoading(false);
+        }, 2 * 60 * 1000); // 2분 후에 false로 변경
+
+        return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+    }, []);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -24,26 +35,34 @@ export default function ThreeD() {
         setIsModalOpen(false);
     };
 
+    const openKakao = () => {
+        window.open("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=681c7dd24caab6868c553a07b27422ed&redirect_uri=https://capstone.hyunn.site/api/login/oauth2/code/kakao", "_blank");
+    };
+
     return (
         <>
             <TotalWrapper>
-                <span><button className="goHome" onClick={goToHome}><FaHome /></button></span>
                 <ThreeDWrapper>
-                    <Canvas camera={{ position: [20, -10, -8] }}>
-                        <OrbitControls />
-                        {/* <axesHelper args={[200, 200, 200]} /> */}
-                        <ambientLight intensity={1} />
-                        <group rotation-y={-Math.PI / 2}>
-                            <Obj />
-                        </group>
-                    </Canvas>
+                    {glbLoading ? (
+                        <img className='loading' src='img/loading.gif' alt="Loading" />
+                    ) : (
+                        <StyledCanvas>
+                            <OrbitControls />
+                            <ambientLight intensity={1} />
+                            <group rotation-y={-Math.PI / 2}>
+                                <Obj />
+                            </group>
+                        </StyledCanvas>
+                    )}
                 </ThreeDWrapper>
                 <div className='btn-firstRow'>
-                    <button className='redo'><FaRedo /> 다시하기</button>
+                    <button className='redo' onClick={goToHome}><FaRedo /> 다시하기</button>
                     <button className='share' onClick={openModal}><FaShareAlt /> 공유하기</button>
                 </div>
                 <div className='btn-secondRow'>
-                    <button className='print'><FaPrint /> 출력하기</button>
+                    {!glbLoading && (
+                        <button className='print' onClick={openKakao}><FaPrint /> 출력하기</button>
+                    )}
                 </div>
             </TotalWrapper>
             <Modal show={isModalOpen} onClose={closeModal} />
@@ -55,6 +74,7 @@ const TotalWrapper = styled.div`
     width:1200px;
     margin-left:360px;
     overflow:hidden;
+    margin-top:10px;
     .goHome{
       background-color:transparent;
       width:50px;
@@ -109,4 +129,20 @@ const ThreeDWrapper = styled.div`
   background-color:#d9d9d9;
   border-radius:34px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .loading{
+    width:300px;
+    height:300px;
+  }
 `
+
+const StyledCanvas = styled(Canvas)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
